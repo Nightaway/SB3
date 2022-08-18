@@ -6,12 +6,12 @@ env = make_atari_env('PongNoFrameskip-v4', n_envs=1, seed=0)
 # Stack 4 frames
 env = VecFrameStack(env, n_stack=4)
 
-model = A2C('CnnPolicy', env=env, verbose=1)
-model.load("checkpoint/rl_model_4570000_steps.zip")
+model = A2C.load("checkpoint/rl_model_4600000_steps")
+model.set_env(env)
 
 obs = env.reset()
-for i in range(5000):
-    action, _state = model.predict(obs, deterministic=True)
+for i in range(100000):
+    action, _state = model.predict(obs, deterministic=False )
     obs, reward, done, info = env.step(action)
     env.render()
     if done:
